@@ -7,7 +7,7 @@ from click import echo
 #===============================================================================
 # Make sure that the current directory is the project directory.
 # 'make test" and 'pytest' are generally run from the project directory.
-# However, if we run/debug this file in eclipse, we end up in lore/tests
+# However, if we run/debug this file in eclipse, we end up in lrcmd/tests
 cwd = os.getcwd()
 if cwd.endswith('tests'):
     echo(f"Changing current working directory"
@@ -26,24 +26,24 @@ if not ('.' in sys.path or os.getcwd() in sys.path):
     echo(f"Adding '.' to sys.path.\n")
     sys.path.insert(0, '.')
 #===============================================================================
-from lore                import run,__version__
-from lore.postprocessors import list_of_lines,list_of_non_empty_lines
-from lore.commands       import ensure_dir,exists,remove,touch, glob,rename,env
-from lore.exceptions     import NonZeroReturnCode, Stderr,RepeatedExecutionFailed,\
+from lrcmd                import run,__version__
+from lrcmd.postprocessors import list_of_lines,list_of_non_empty_lines
+from lrcmd.commands       import ensure_dir,exists,remove,touch, glob,rename,env
+from lrcmd.exceptions     import NonZeroReturnCode, Stderr,RepeatedExecutionFailed,\
                                   CommandTimedOut
 #===============================================================================    
-# setup a logger which writes to stderr and to file lore.log.txt
+# setup a logger which writes to stderr and to file lrcmd.log.txt
 import logging
-lore_log = logging.getLogger('lore_log')
-logfile_handler = logging.FileHandler("lore.log.txt",mode='w')
-logfile_formatter = logging.Formatter(f"%(levelname)s: %(name)s (lore v{__version__}) : %(asctime)s %(message)s\n")
+lrcmd_log = logging.getLogger('lrcmd_log')
+logfile_handler = logging.FileHandler("lrcmd.log.txt",mode='w')
+logfile_formatter = logging.Formatter(f"%(levelname)s: %(name)s (lrcmd v{__version__}) : %(asctime)s %(message)s\n")
 logfile_handler.setFormatter(logfile_formatter)
 stderr_handler = logging.StreamHandler(sys.stderr)
 stderr_handler.setLevel(logging.INFO)
-stderr_formatter = logging.Formatter(f"%(levelname)s: %(name)s (lore v{__version__}) %(message)s\n")
+stderr_formatter = logging.Formatter(f"%(levelname)s: %(name)s (lrcmd v{__version__}) %(message)s\n")
 stderr_handler.setFormatter(stderr_formatter)
-lore_log.addHandler(logfile_handler)
-lore_log.addHandler(stderr_handler)
+lrcmd_log.addHandler(logfile_handler)
+lrcmd_log.addHandler(stderr_handler)
 #===============================================================================
 import pytest
 #===============================================================================
@@ -145,7 +145,7 @@ def test_timeout():
     sleep = timeout
     cmd = f"sleep {sleep}"
     with pytest.raises(CommandTimedOut):
-        run(cmd,timeout=timeout,error_log=lore_log)
+        run(cmd,timeout=timeout,error_log=lrcmd_log)
 #===============================================================================
 def test_repeated_execution_fails():
     with pytest.raises(RepeatedExecutionFailed):
@@ -238,7 +238,7 @@ def test_env():
 # (normally all tests are run with pytest)
 #===============================================================================
 if __name__=="__main__":
-    the_test_you_want_to_debug = test_timeout
+    the_test_you_want_to_debug = test_exists_existing
 
     from execution_trace import trace
     with trace(f"__main__ running {the_test_you_want_to_debug}",'-*# finished #*-',singleline=False,combine=False):

@@ -28,14 +28,14 @@ from .local      import LocalCommand
 try:
     import paramiko
 except ImportError:
-    print("Warning lore:\n  Module paramiko is not available."
+    print("Warning lrcmd:\n  Module paramiko is not available."
            "\n  To allow for remote commands, either install paramiko, or"
            "\n  actixvate a Python environment which has paramiko installed."
           , file=sys.stderr
           )
     RemoteCommand = None
 else:
-    from lore.remote import RemoteCommand
+    from lrcmd.remote import RemoteCommand
 #===============================================================================
 def run( command, connection=None
                 , working_directory='.'
@@ -61,11 +61,11 @@ def run( command, connection=None
         remote directory where you would normally end up when you ssh to the
         remote machine in a terminal.
     :param bool check: check the return code of the command and raise 
-        lore_exceptions.NonZeroReturnCode if different from 0. 
-    :param bool stderr_is_error: raise lore_exceptions.Stderr if there is
+        lrcmd_exceptions.NonZeroReturnCode if different from 0. 
+    :param bool stderr_is_error: raise lrcmd_exceptions.Stderr if there is
         output on stderr. 
     :param int timeout: the number of seconds in which the command must completed. 
-        If it doesn't, a *lore.exceptions.CommandTimedOut* is raised. Default
+        If it doesn't, a *lrcmd.exceptions.CommandTimedOut* is raised. Default
         is None, implying no timeout.
     :param post_processor: a function that transforms the output (on stdout) of 
         *command* .

@@ -7,7 +7,7 @@ from click import echo
 #===============================================================================
 # Make sure that the current directory is the project directory.
 # 'make test" and 'pytest' are generally run from the project directory.
-# However, if we run/debug this file in eclipse, we end up in lore/tests
+# However, if we run/debug this file in eclipse, we end up in lrcmd/tests
 cwd = os.getcwd()
 if cwd.endswith('tests'):
     echo(f"Changing current working directory"
@@ -26,11 +26,11 @@ if not ('.' in sys.path or os.getcwd() in sys.path):
     echo(f"Adding '.' to sys.path.\n")
     sys.path.insert(0, '.')
 #===============================================================================
-from lore                import run, Connection,__version__
-from lore.postprocessors import list_of_lines,list_of_non_empty_lines
-from lore.commands       import ensure_dir,exists,remove,touch, glob,rename,env
-from lore.exceptions     import NonZeroReturnCode, Stderr, CommandTimedOut, RepeatedExecutionFailed
-from lore.commands       import copy_local_to_remote
+from lrcmd                import run, Connection,__version__
+from lrcmd.postprocessors import list_of_lines,list_of_non_empty_lines
+from lrcmd.commands       import ensure_dir,exists,remove,touch, glob,rename,env
+from lrcmd.exceptions     import NonZeroReturnCode, Stderr, CommandTimedOut, RepeatedExecutionFailed
+from lrcmd.commands       import copy_local_to_remote
 #===============================================================================
 from types import SimpleNamespace
 me = SimpleNamespace( username = 'vsc20170'
@@ -44,18 +44,18 @@ leibniz1 = Connection( login_node='login1-leibniz.uantwerpen.be'
 #===============================================================================
 import pytest
 #===============================================================================    
-# setup a logger which writes to stderr and to file lore.log.txt
+# setup a logger which writes to stderr and to file lrcmd.log.txt
 import logging
-lore_log = logging.getLogger('lore_log')
-logfile_handler = logging.FileHandler("lore.log.txt",mode='w')
-logfile_formatter = logging.Formatter(f"%(levelname)s: %(name)s (lore v{__version__}) : %(asctime)s %(message)s\n")
+lrcmd_log = logging.getLogger('lrcmd_log')
+logfile_handler = logging.FileHandler("lrcmd.log.txt",mode='w')
+logfile_formatter = logging.Formatter(f"%(levelname)s: %(name)s (lrcmd v{__version__}) : %(asctime)s %(message)s\n")
 logfile_handler.setFormatter(logfile_formatter)
 stderr_handler = logging.StreamHandler(sys.stderr)
 stderr_handler.setLevel(logging.INFO)
-stderr_formatter = logging.Formatter(f"%(levelname)s: %(name)s (lore v{__version__}) %(message)s\n")
+stderr_formatter = logging.Formatter(f"%(levelname)s: %(name)s (lrcmd v{__version__}) %(message)s\n")
 stderr_handler.setFormatter(stderr_formatter)
-lore_log.addHandler(logfile_handler)
-lore_log.addHandler(stderr_handler)
+lrcmd_log.addHandler(logfile_handler)
+lrcmd_log.addHandler(stderr_handler)
 #===============================================================================
 # tests
 #===============================================================================
@@ -161,7 +161,7 @@ def test_timeout():
     with pytest.raises(CommandTimedOut):
         run( cmd, connection=leibniz1
            , timeout=0.1
-           , error_log=lore_log
+           , error_log=lrcmd_log
            )
 #===============================================================================
 def test_repeated_execution_fails():
@@ -171,7 +171,7 @@ def test_repeated_execution_fails():
                , attempts=3, wait=.5
                , timeout=.9
                , verbose=True
-               , error_log=lore_log
+               , error_log=lrcmd_log
                )
         except RepeatedExecutionFailed as e:
             print(e)
