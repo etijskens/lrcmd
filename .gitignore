@@ -108,3 +108,6 @@ ENV/
 
 # apple
 .DS_Store
+
+# logger
+*.log.txt
