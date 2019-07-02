@@ -1,2 +1,0 @@
-ERROR: lrcmd_log (lrcmd v0.0.0) : 2019-07-01 16:03:59,595 Local command '['sleep', '1']' timed out after 1s.
-

@@ -16,13 +16,14 @@ keywords = ['packaging', 'poetry']
 python = "^3.7"
 click = "^7.0"
 cookiecutter = "^1.6.0"
+paramiko = "^2.6"
 
 [tool.poetry.dev-dependencies]
 pytest = "^4.4.2"
 
+[tool.poetry.scripts]
+#my-script = 'my_package:main'
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
 
-[tool.poetry.scripts]
-#my-script = 'my_package:main'
