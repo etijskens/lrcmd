@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lrcmd"
-version = "0.0.0"
+version = "0.2.1"
 description = "Unified interface for local and remote system commands."
 authors = ["Engelbert Tijskens <engelbert.tijskens@uantwerpen.be>"]
 license = "MIT"
